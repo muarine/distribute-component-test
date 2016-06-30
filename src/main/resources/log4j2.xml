@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="Console">
+			<PatternLayout pattern="%d %-5p [%c] (%t) %m%n" />
+		</Console>
+
+		<RollingRandomAccessFile name="RollingRandomAccessFile"
+			immediateFlush="true" fileName="${sys:catalina.base}/logs/mq/mq.log"
+			filePattern="${sys:catalina.base}/logs/mq/mq.%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d %-5p [%c] (%t) %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingRandomAccessFile>
+
+		<Flume name="flume"  compress="false">
+			<Agent host="10.10.10.114" port="56000" />
+			<!--<Agent host="10.10.10.114" port="56000" />-->
+			<RFC5424Layout enterpriseNumber="18060" includeMDC="true" />
+		</Flume>
+
+		<Async name="Async">
+			<AppenderRef ref="flume"></AppenderRef>
+		</Async>
+	</Appenders>
+
+	<Loggers>
+		<Root level="INFO">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingRandomAccessFile" />
+			<!--<AppenderRef ref="Async" />-->
+		</Root>
+
+	</Loggers>
+
+</Configuration>
