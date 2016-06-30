@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * com.rtmap.example.zookeeper.client.TestZnode
+ * com.rtmap.example.zookeeper.client.OperateZNode
  *
  * @author Muarine<maoyun@rtmap.com>
  * @date 16/6/30
  * @since 1.0
  */
-public class TestZnode {
+public class OperateZNode {
 
 
     public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
@@ -48,6 +48,11 @@ public class TestZnode {
 
     private static final String PREFIX = "/";
 
+    /**
+     * 遍历打印Zookeeper树形结构
+     * @param zooKeeper
+     * @param path
+     */
     public static void recurZnode(ZooKeeper zooKeeper , String path){
 
         if(zooKeeper == null) {
@@ -74,7 +79,15 @@ public class TestZnode {
         }
     }
 
-
+    /**
+     * zookeeper分布式锁实现计数器
+     *
+     * @param zooKeeper
+     * @param path
+     * @return
+     * @throws KeeperException
+     * @throws InterruptedException
+     */
     public static Long zookeeperCounter(final ZooKeeper zooKeeper ,final String path) throws KeeperException, InterruptedException {
         Long counter = 1L;
         Stat stat = zooKeeper.exists(path , true);
@@ -91,6 +104,7 @@ public class TestZnode {
     }
 
     /**
+     * 创建节点
      * /rtmap/distribute/counter
      *
      * @param path
